@@ -2,7 +2,7 @@ import './App.scss';
 import NavBar from './components/NavBar';
 
 import { Container } from 'react-bootstrap';
-import ItemListContainer from './components/store/ItemListContainet';
+import ItemListContainer from './components/store/ItemListContainer';
 function App() {  
   return (
     <div className="App">

@@ -1,7 +1,7 @@
 import { getStoreItemsList } from '../../services/storeItemsList.jsx';
 import React, { useEffect, useState } from 'react';
 import { Row, Col,Alert  } from 'react-bootstrap';
-import ProductCard from './ProductCard.jsx';
+import Item from './Item.jsx';
 function ItemListContainer({ WelcomeMessage }) {
     console.log(WelcomeMessage);
     const [storeItemsList, setstoreItemsList] = useState([]);
@@ -16,7 +16,7 @@ function ItemListContainer({ WelcomeMessage }) {
         return () => mounted = false;
     }, [])
     return (
-        <Row>
+        <Row className="g-3">
             <Col sm="12" className='p-3'>
                 <Alert variant='info'>
                     {WelcomeMessage}
@@ -25,7 +25,7 @@ function ItemListContainer({ WelcomeMessage }) {
             {storeItemsList.map((item, index) =>
             (
                 <Col key={index}>
-                    <ProductCard product={item} />
+                    <Item product={item} />
                 </Col>
             )
             )}
