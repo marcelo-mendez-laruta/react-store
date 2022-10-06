@@ -1,19 +1,14 @@
-import { getStoreItemsList } from '../../services/storeItemsList.jsx';
+import { getStoreItemsList } from '../../services/storeAPI.jsx';
 import React, { useEffect, useState } from 'react';
-import { Row, Col,Alert  } from 'react-bootstrap';
+import { Row, Col, Alert } from 'react-bootstrap';
 import Item from './Item.jsx';
 function ItemListContainer({ WelcomeMessage }) {
-    console.log(WelcomeMessage);
     const [storeItemsList, setstoreItemsList] = useState([]);
     useEffect(() => {
-        let mounted = true;
         getStoreItemsList()
             .then(items => {
-                if (mounted) {
-                    setstoreItemsList(items);
-                }
+                setstoreItemsList(items);
             })
-        return () => mounted = false;
     }, [])
     return (
         <Row className="g-3">

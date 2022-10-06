@@ -1,10 +1,18 @@
-import { Card, Button,Row,Col } from 'react-bootstrap';
-import { default as CounterButton } from '../utils/counter.jsx';
+import { Card, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 export default function Item({ product }) {
-    let TitleStyle={display: "block",
+    let TitleStyle = {
+        display: "block",
         overflow: "hidden",
         whiteSpace: "nowrap",
-        textOverflow: "ellipsis"}
+        textOverflow: "ellipsis"
+    };
+    const navigate = useNavigate();
+    const goToProduct = (e, id) => {
+        e.preventDefault();
+        let url = '/producto/' + id;
+        navigate(url);
+    };
     return (
         <Card style={{ width: '18rem' }}>
             <Card.Img fluid variant="top" src={product.image} style={{ height: '12rem', objectFit: 'contain' }} />
@@ -16,11 +24,16 @@ export default function Item({ product }) {
                 <Card.Text >
                     {product.price} $Bs.
                 </Card.Text>
-                <Row>
-                    <Col sm={6}>Cantidad</Col>
-                    <Col sm={6}><CounterButton max={product.stock} /></Col>
-                </Row>
-                <Button variant="primary">Añadir al carrito</Button>
+                <Card.Text >
+                    {product.descripcion}
+                </Card.Text>
+                <div class="d-grid gap-2">
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <Button variant="primary">Añadir al carrito</Button>
+                        <Button variant="secondary" onClick={e => goToProduct(e, product.id)}>Ver</Button>
+                    </div>
+                </div>
+
             </Card.Body>
         </Card>
     );

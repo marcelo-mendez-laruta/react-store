@@ -3,12 +3,19 @@ import NavBar from './components/NavBar';
 
 import { Container } from 'react-bootstrap';
 import ItemListContainer from './components/store/ItemListContainer';
-function App() {  
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ItemDetail from './components/store/itemDetail';
+function App() {
   return (
     <div className="App">
       <Container fluid>
-        <NavBar />
-        <ItemListContainer WelcomeMessage={"Hola Bienvenidos a React Store"}/>
+        <BrowserRouter>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<ItemListContainer WelcomeMessage={"Hola Bienvenidos a React Store"} />} />
+            <Route path="/producto/:productId" element={<ItemDetail />} />
+          </Routes>
+        </BrowserRouter>
       </Container>
     </div>
   );
