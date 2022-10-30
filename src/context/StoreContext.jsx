@@ -106,6 +106,7 @@ const StoreContextProvider = ({ children }) => {
 				quantity,
 				setQuantity,
 				deletItemCart,
+				setMyOrders,
 				cartState
 			}}>
 			{children}

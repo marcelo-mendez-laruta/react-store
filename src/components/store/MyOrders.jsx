@@ -17,13 +17,24 @@ function MyOrders() {
             navigate('/');
         }
     }, [isLoggedin]);
+    const convertDate = (date) => {
+        console.log(date);
+        var dateFormat = new Date(date.seconds * 1000);
+        console.log(dateFormat);
+        return dateFormat.getDate() +
+            "/" + (dateFormat.getMonth() + 1) +
+            "/" + dateFormat.getFullYear() +
+            " " + dateFormat.getHours() +
+            ":" + dateFormat.getMinutes() +
+            ":" + dateFormat.getSeconds();
+    }
     return (
         <>
             <h1>Mis Compras</h1>
             {myOrders.length > 0 ? (<Accordion>
                 {myOrders.map(function (order) {
-                    return (<Accordion.Item eventKey="item.id">
-                        <Accordion.Header>Compra Realizada en {String(order.createdOn)}</Accordion.Header>
+                    return (<Accordion.Item eventKey={order.id}>
+                        <Accordion.Header>Compra Realizada en {convertDate(order.createdOn)} con codigo {order.id}</Accordion.Header>
                         <Accordion.Body>
                             <Table striped bordered hover size="sm">
                                 <thead>
@@ -45,7 +56,7 @@ function MyOrders() {
                                     })}
                                 </tbody>
                             </Table>
-                            <p class="h5"><strong>Precio Total: {order.totalPrice}</strong></p>
+                            <p className="h5"><strong>Precio Total: {order.totalPrice}</strong></p>
                         </Accordion.Body>
                     </Accordion.Item>)
                 })}

@@ -59,7 +59,7 @@ function Checkout() {
                                         })}
                                     </tbody>
                                 </Table>
-                                <p class="h5"><strong>Precio Total: {total}</strong></p>
+                                <p className="h5"><strong>Precio Total: {total}</strong></p>
                             </Card.Body>
                             <Card.Footer>
                                 <Row className="justify-content-end no-gutters">

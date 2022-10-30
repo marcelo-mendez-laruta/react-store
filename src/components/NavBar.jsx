@@ -1,5 +1,5 @@
 import logo from '../logo.svg';
-import { Container, Navbar, Nav, DropdownButton, Dropdown, Button, Image } from 'react-bootstrap';
+import { Container, Navbar, Nav,  Dropdown,NavDropdown,  Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClipboardList, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import CartButton from './store/CartButton.jsx';
@@ -55,17 +55,17 @@ function NavBar() {
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end align-items-center">
                         <Nav>
-                            <DropdownButton size="sm" title="Categorias" variant="primary" className=' mt-2 mr-5'>
+                            <NavDropdown size="sm" title="Categorias" className=' mt-2 mr-5'>
                                 {
                                     categories.map(function (category) {
                                         return (
-                                            <Dropdown.Item onClick={e => goToCategory(e, category.id)} key={category.id}>{category.name}</Dropdown.Item>
+                                            <NavDropdown.Item onClick={e => goToCategory(e, category.id)} key={category.id}>{category.name}</NavDropdown.Item>
                                         );
                                     })
 
                                 }
-                            </DropdownButton>
-                            <Nav.Link href="#action2">
+                            </NavDropdown>
+                            <Nav.Link>
                                 <CartButton />
                             </Nav.Link>
                             {
@@ -79,7 +79,7 @@ function NavBar() {
                                         <Dropdown.Item onClick={e => handleLogout(e)} className="text-danger "><FontAwesomeIcon icon={faRightFromBracket} /> Cerrar Sesion</Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown> :
-                                    <Button size="sm" variant="primary" onClick={e => viewLoginModal(e)}>Iniciar Sesión</Button>
+                                    <Nav.Link onClick={e => viewLoginModal(e)} className=' mt-2 mr-5 text-primary'>Iniciar Sesión</Nav.Link>
                             }
                         </Nav>
                     </Navbar.Collapse>

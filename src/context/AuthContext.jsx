@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react"
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import Login from '../components/store/login.jsx';
 
 const auth = getAuth();
@@ -37,12 +37,30 @@ const AuthContextProvider = ({ children }) => {
             });
     }
     const _signInWithEmailAndPassword = (email, password) => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                setUser(userCredential.user);
+                setIsLoggedin(true);
+                setModalVisibility(false);
+                // ...
+            })
+            .catch((e) => {
+                let error = {};
+                error.Code = e.code;
+                error.Message = e.message;
+                setUser({ error: error });
+                // ..
+            });
+    }
+    const registerWithEmailAndPassword = (email, password) => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
                 setUser(userCredential.user);
                 setIsLoggedin(true);
                 setModalVisibility(false);
+                console.log(userCredential.user);
                 // ...
             })
             .catch((e) => {
@@ -70,6 +88,7 @@ const AuthContextProvider = ({ children }) => {
                 setUser,
                 _signInWithEmailAndPassword,
                 _signInWithGoogle,
+                registerWithEmailAndPassword,
                 logout,
                 modalVisibility,
                 setModalVisibility

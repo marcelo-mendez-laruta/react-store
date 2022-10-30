@@ -20,13 +20,13 @@ function CounterItems({ max }) {
         setQuantity(count);
     }, [count, setQuantity])
     return (
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon1" disabled={count <= 0 ? true : false} onClick={DeductToCount}>-</button>
+        <div className="input-group mb-3">
+            <div className="input-group-prepend">
+                <button className="btn btn-outline-secondary" type="button" id="button-addon1" disabled={count <= 0 ? true : false} onClick={DeductToCount}>-</button>
             </div>
-            <input type="text" class="form-control" value={count} onChange={e => updateCount(e)} />
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2" disabled={count >= max ? true : false} onClick={AddToCount}>+</button>
+            <input type="text" className="form-control" value={count} onChange={e => updateCount(e)} />
+            <div className="input-group-append">
+                <button className="btn btn-outline-secondary" type="button" id="button-addon2" disabled={count >= max ? true : false} onClick={AddToCount}>+</button>
             </div>
         </div>
 
