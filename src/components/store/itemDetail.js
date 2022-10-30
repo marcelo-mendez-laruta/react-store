@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { getStoreItem } from '../../services/storeAPI.jsx';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { useStoreContext } from '../../context/StoreContext.jsx';
+import { Card, Button, Row, Col, Modal, Alert } from 'react-bootstrap';
 import { default as CounterButton } from '../utils/counter.jsx';
 
 function ItemDetail() {
@@ -12,33 +12,54 @@ function ItemDetail() {
         textOverflow: "ellipsis"
     };
     const params = useParams();
-    const productId = params.productId;
-    const [product, setProduct] = useState([]);
+    const { product, getProduct, quantity, addtoCart } = useStoreContext();
+    const [showAlert, setShowAlert] = React.useState(false);
+    const handleAddToCart = () => {
+        addtoCart();
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1000);
+    };
     useEffect(() => {
-        getStoreItem(productId)
-            .then(item => {
-                setProduct(item);
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [product])
+        getProduct(params.productId);
+    }, [params.productId, getProduct]);
     return (<>
-        <Card style={{ width: '18rem' }}>
-            <Card.Img fluid variant="top" src={product.image} style={{ height: '12rem', objectFit: 'contain' }} />
-            <Card.Body>
-                <Card.Title style={TitleStyle}>{product.title}</Card.Title>
-                <Card.Text>
-                    {product.descripcion}
-                </Card.Text>
-                <Card.Text >
-                    {product.price} $Bs.
-                </Card.Text>
-                <Row>
-                    <Col sm={6}>Cantidad</Col>
-                    <Col sm={6}><CounterButton max={product.stock} /></Col>
-                </Row>
-                <Button variant="primary">Añadir al carrito</Button>
-            </Card.Body>
-        </Card>
+        {<Row className="justify-content-md-center">
+            <Col xs="12" lg="4">
+                <Card>
+                    <Card.Img fluid variant="top" src={product.image} style={{ height: '12rem', objectFit: 'contain', padding: '25px' }} />
+                    <Card.Body>
+                        <Card.Title style={TitleStyle}>{product.title}</Card.Title>
+                        <Card.Text>
+                            {product.descripcion}
+                        </Card.Text>
+                        <Card.Text >
+                            {product.price} $Bs.
+                        </Card.Text>
+                        <Row>
+                            <Col sm={6}>Stock</Col>
+                            <Col sm={6}>{product.stock}</Col>
+                        </Row>
+                        <Row>
+                            <Col sm={6}>Cantidad</Col>
+                            <Col sm={6}><CounterButton max={product.stock} /></Col>
+                        </Row>
+                        <Row>
+                            <Col sm={6}>Precio Total</Col>
+                            <Col sm={6}>{(product.price * quantity).toFixed(2)} $Bs.</Col>
+                        </Row>
+                        <Button variant="primary" onClick={handleAddToCart}>Añadir al carrito</Button>
+                    </Card.Body>
+                </Card>
+                <Modal show={showAlert} centered>
+                    <Modal.Body><Alert variant="success">
+                        Producto agregado con exito.
+                    </Alert></Modal.Body>
+                </Modal>
+            </Col>
+        </Row>}
+
     </>);
 }
 

@@ -1,28 +1,35 @@
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { InputGroup, Button, Form } from "react-bootstrap";
-function CounterItems(max) {
-    const [count, setCount] = useState(0);
+import { useStoreContext } from "../../context/StoreContext.jsx";
+
+function CounterItems({ max }) {
+    const [count, setCount] = useState(1);
+    const { setQuantity } = useStoreContext();
     const AddToCount = () => {
         setCount(count + 1);
     };
     const DeductToCount = () => {
         setCount(count - 1);
     };
+    const updateCount = (e) => {
+        let value = e.target.value;
+        value = value > max ? max : value;
+        setCount(value);
+    }
+    useEffect(() => {
+        setQuantity(count);
+    }, [count, setQuantity])
     return (
-        <InputGroup className="mb-3" size="sm">
-            <Button variant="outline-secondary" id="button-addon1" disabled={count <= 0 ? true : false} onClick={DeductToCount}>
-                -
-            </Button>
-            <Form.Control
-                aria-label="Example text with button addon"
-                aria-describedby="basic-addon1"
-                placeholder="0"
-                value={count}
-            />
-            <Button variant="outline-secondary" id="button-addon2" disabled={count >= max ? true : false} onClick={AddToCount}>
-                +
-            </Button>
-        </InputGroup>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon1" disabled={count <= 0 ? true : false} onClick={DeductToCount}>-</button>
+            </div>
+            <input type="text" class="form-control" value={count} onChange={e => updateCount(e)} />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" disabled={count >= max ? true : false} onClick={AddToCount}>+</button>
+            </div>
+        </div>
+
     );
 }
 

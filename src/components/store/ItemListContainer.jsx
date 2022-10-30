@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useEffect } from 'react';
 import { Row, Col, Alert } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import Item from './Item.jsx';
-import { getStoreItemsList, getStoreItemsByCategory } from '../../services/storeAPI.jsx';
+import { useStoreContext } from '../../context/StoreContext.jsx';
+
+
 function ItemListContainer({ WelcomeMessage, isCategory }) {
-    const [storeItemsList, setstoreItemsList] = useState([]);
     const params = useParams();
-    const category = params.categoria ? params.categoria : '';
+    const { products,getCategory,category } = useStoreContext();
     useEffect(() => {
-        if (isCategory) {
-            getStoreItemsByCategory(category)
-                .then(items => {
-                    setstoreItemsList(items);
-                })
-        } else {
-            getStoreItemsList()
-                .then(items => {
-                    setstoreItemsList(items);
-                })
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [storeItemsList])
+        getCategory(params.categoria);
+    });
     return (
         <Row className="g-3">
             <Col sm="12" className='p-3'>
@@ -29,15 +19,21 @@ function ItemListContainer({ WelcomeMessage, isCategory }) {
                 </Alert >
             </Col>
             <Col sm="12">
-                <p>{isCategory ? category : "Nuestros Productos"}</p>
+                <p className="h2 my-5"><strong>{isCategory ? category? category.name:"loading..." : "Nuestros Productos"}</strong></p>
             </Col>
-            {storeItemsList.map((item, index) =>
-            (
-                <Col key={index}>
-                    <Item product={item} />
-                </Col>
-            )
-            )}
+            {products.length > 0 ? products.map(function (item) {
+                if (isCategory) {
+                    return item.category === params.categoria ? (<Col key={item.id}>
+                        <Item product={item} />
+                    </Col>):null;
+                }
+                else {
+                    return (<Col key={item.id}>
+                        <Item product={item} />
+                    </Col>);
+                }
+            }
+            ) : <Col sm="12" className='p-3'><Alert variant='warning'>Cargando Items...</Alert ></Col>}
         </Row>
     );
 }

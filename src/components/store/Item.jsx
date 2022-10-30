@@ -29,8 +29,7 @@ export default function Item({ product }) {
                 </Card.Text>
                 <div className="d-grid gap-2">
                     <div className="btn-group" role="group" aria-label="Basic mixed styles example">
-                        <Button variant="primary">Añadir al carrito</Button>
-                        <Button variant="secondary" onClick={e => goToProduct(e, product.id)}>Ver</Button>
+                        <Button variant="primary" onClick={e => goToProduct(e, product.id)}>Ver</Button>
                     </div>
                 </div>
 
